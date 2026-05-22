@@ -1,8 +1,8 @@
 // ─── API Config ───────────────────────────────────────────────────────────────
 // Change this to your deployed backend URL when hosting online
 // e.g. 'https://edureg-backend.onrender.com'
-const API_BASE = 'http://localhost:3001/api';
 const API_BASE = 'https://wbexam-final.onrender.com/api';
+
 
 // ─── State ────────────────────────────────────────────────────────────────────
 let allCourses = [];
