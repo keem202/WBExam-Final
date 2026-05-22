@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EduReg — Student Course Registration</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<div class="blob blob1"></div>
+<div class="blob blob2"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">Edu<span>Reg</span></div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showPage('home')">🏠 <span>Home</span></button>
+    <button class="nav-tab" onclick="showPage('courses')">📚 <span>Courses</span></button>
+    <button class="nav-tab" onclick="showPage('register')">✏️ <span>Register</span></button>
+    <button class="nav-tab" onclick="showPage('dashboard')">📋 <span>Dashboard</span></button>
+  </div>
+</nav>
+
+<main>
+
+  <!-- HOME -->
+  <div id="page-home" class="page active">
+    <div class="hero">
+      <div class="hero-badge">🎓 Academic Year 2025–2026</div>
+      <h1>Register for <em>Courses</em><br>That Shape Your Future</h1>
+      <p>Browse available courses, check seat availability, and complete your registration in minutes.</p>
+      <div class="hero-btns">
+        <button class="btn btn-primary" onclick="showPage('courses')">Browse Courses →</button>
+        <button class="btn btn-secondary" onclick="showPage('register')">Register Now</button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-num" id="stat-courses">—</span><div class="stat-label">Available Courses</div></div>
+        <div class="stat"><span class="stat-num" id="stat-registrations">—</span><div class="stat-label">Total Registrations</div></div>
+        <div class="stat"><span class="stat-num" id="stat-departments">—</span><div class="stat-label">Departments</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COURSES -->
+  <div id="page-courses" class="page">
+    <div class="sec-header">
+      <div class="sec-title">Available <span>Courses</span></div>
+      <button class="btn btn-primary btn-sm" onclick="showPage('register')">+ Register</button>
+    </div>
+    <div class="filter-bar">
+      <input class="search-input" id="courseSearch" placeholder="🔍  Search courses…" oninput="renderCourses()"/>
+      <select class="filter-select" id="deptFilter" onchange="renderCourses()">
+        <option value="">All Departments</option>
+        <option value="CS">Computer Science</option>
+        <option value="MATH">Mathematics</option>
+        <option value="ENG">Engineering</option>
+        <option value="BUS">Business</option>
+      </select>
+    </div>
+    <div class="courses-grid" id="courses-grid">
+      <div class="loading">Loading courses…</div>
+    </div>
+  </div>
+
+  <!-- REGISTER -->
+  <div id="page-register" class="page">
+    <div class="sec-header">
+      <div class="sec-title">Course <span>Registration</span></div>
+    </div>
+    <div class="form-card">
+      <div class="form-title">Student Registration Form</div>
+      <div class="form-subtitle">Fill in your details and select the courses you'd like to enroll in.</div>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Student ID <span class="req">*</span></label>
+          <input type="text" id="f-id" placeholder="e.g. STU-2025-001"/>
+          <span class="field-error" id="err-id"></span>
+        </div>
+        <div class="form-group">
+          <label>Full Name <span class="req">*</span></label>
+          <input type="text" id="f-name" placeholder="Your full name"/>
+          <span class="field-error" id="err-name"></span>
+        </div>
+        <div class="form-group">
+          <label>Email Address <span class="req">*</span></label>
+          <input type="email" id="f-email" placeholder="student@university.edu"/>
+          <span class="field-error" id="err-email"></span>
+        </div>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" id="f-phone" placeholder="+20 1XX XXX XXXX"/>
+        </div>
+        <div class="form-group">
+          <label>Department <span class="req">*</span></label>
+          <select id="f-dept">
+            <option value="">— Select Department —</option>
+            <option value="CS">Computer Science</option>
+            <option value="MATH">Mathematics</option>
+            <option value="ENG">Engineering</option>
+            <option value="BUS">Business</option>
+          </select>
+          <span class="field-error" id="err-dept"></span>
+        </div>
+        <div class="form-group">
+          <label>Academic Year <span class="req">*</span></label>
+          <select id="f-year">
+            <option value="">— Select Year —</option>
+            <option value="1">Year 1 (Freshman)</option>
+            <option value="2">Year 2 (Sophomore)</option>
+            <option value="3">Year 3 (Junior)</option>
+            <option value="4">Year 4 (Senior)</option>
+          </select>
+          <span class="field-error" id="err-year"></span>
+        </div>
+      </div>
+
+      <hr class="form-divider"/>
+
+      <div class="form-group" style="margin-bottom:1.2rem">
+        <label>Enrollment Type <span class="req">*</span></label>
+        <div class="radio-group" id="f-enrollment">
+          <label class="radio-item selected" onclick="selectRadio(this)">
+            <input type="radio" name="enrollment" value="Full-time" checked/> Full-time
+          </label>
+          <label class="radio-item" onclick="selectRadio(this)">
+            <input type="radio" name="enrollment" value="Part-time"/> Part-time
+          </label>
+          <label class="radio-item" onclick="selectRadio(this)">
+            <input type="radio" name="enrollment" value="Exchange"/> Exchange Student
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-bottom:1.2rem">
+        <label>Select Courses <span class="req">*</span></label>
+        <div class="check-group" id="f-courses"><div class="loading">Loading courses…</div></div>
+        <span class="field-error" id="err-courses"></span>
+      </div>
+
+      <div class="form-group" style="margin-bottom:1rem">
+        <label>Special Requests / Notes</label>
+        <textarea id="f-notes" placeholder="Accessibility needs, schedule conflicts, etc."></textarea>
+      </div>
+
+      <div style="margin-bottom:1rem">
+        <label class="check-item" style="width:auto;display:inline-flex">
+          <input type="checkbox" id="f-terms"/> I agree to the academic terms and registration policy
+        </label>
+        <span class="field-error" id="err-terms"></span>
+      </div>
+
+      <div class="form-footer">
+        <span class="form-note">* Required fields</span>
+        <div style="display:flex;gap:.75rem">
+          <button class="btn btn-secondary" onclick="resetForm()">Clear</button>
+          <button class="btn btn-primary" id="submit-btn" onclick="submitForm()">Submit Registration</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="page-dashboard" class="page">
+    <div class="sec-header">
+      <div class="sec-title">My <span>Registrations</span></div>
+      <button class="btn btn-secondary btn-sm" onclick="confirmClearAll()">🗑 Clear All</button>
+    </div>
+    <div id="dashboard-content"><div class="loading">Loading…</div></div>
+  </div>
+
+</main>
+
+<!-- Modal -->
+<div class="modal-overlay" id="confirm-modal">
+  <div class="modal">
+    <h3 id="modal-title">Confirm Action</h3>
+    <p id="modal-body">Are you sure?</p>
+    <div class="modal-btns">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-danger btn-sm" id="modal-confirm-btn">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
